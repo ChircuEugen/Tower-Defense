@@ -1,10 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public float moveSpeed = 4f;
+    [SerializeField] private EnemyDataSO data;
+
+    public static Action<EnemyDataSO> OnEnemyReachedEnd;
 
     private Vector3 _targetPosition;
     private Path currentPath;
@@ -23,7 +26,7 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        transform.position = Vector2.MoveTowards(transform.position, _targetPosition, moveSpeed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, _targetPosition, data.speed * Time.deltaTime);
 
         float distanceFromTarget = (transform.position - _targetPosition).magnitude;
         if(distanceFromTarget < 0.1)
@@ -35,6 +38,7 @@ public class Enemy : MonoBehaviour
             }
             else
             {
+                OnEnemyReachedEnd?.Invoke(data);
                 gameObject.SetActive(false);
             }
             

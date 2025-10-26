@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2316602378023560391}
   - component: {fileID: 737286323632778345}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: White Dragon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1378406252391678146, guid: 0cac412d747967142a17e81798812485, type: 3}
+  m_Sprite: {fileID: -3074221327333026523, guid: 767a832fd8f8d8b4fa743750ba954b7b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -99,4 +99,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c6184c22e8e2934a97c88638a6fc24b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4
+  data: {fileID: 11400000, guid: 081fa6275eb4b864f8d4d9d94c4b3d4c, type: 2}
