@@ -1,11 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
+    public static event Action<int> OnWaveChanged;
+
     [SerializeField] private WaveDataSO[] waves;
     private int currentWaveIndex = 0;
+    private int waveCounter = 0;
     private WaveDataSO currentWave => waves[currentWaveIndex];
 
     private float spawnTimer;
@@ -18,14 +22,21 @@ public class Spawner : MonoBehaviour
 
     private Dictionary<EnemyType, ObjectPooler> poolDictionary;
 
+    private float timeBetweenWaves = 2f;
+    private float waveCooldown;
+    private bool isBetweenWaves = false;
+
+
     private void OnEnable()
     {
         Enemy.OnEnemyReachedEnd += HandleEnemyReachedEnd;
+        Enemy.OnEnemyDestroyed += HandleEnemyDestroyed;
     }
 
     private void OnDisable()
     {
         Enemy.OnEnemyReachedEnd -= HandleEnemyReachedEnd;
+        Enemy.OnEnemyDestroyed -= HandleEnemyDestroyed;
     }
 
     private void Awake()
@@ -38,22 +49,44 @@ public class Spawner : MonoBehaviour
         };
     }
 
+    private void Start()
+    {
+        OnWaveChanged?.Invoke(currentWaveIndex);
+    }
+
     private void Update()
     {
-        spawnTimer -= Time.deltaTime;
+        if(isBetweenWaves)
+        {
+            waveCooldown -= Time.deltaTime;
+            if(waveCooldown <= 0)
+            {
+                currentWaveIndex = (currentWaveIndex + 1) % waves.Length;
+                waveCounter++;
+                OnWaveChanged?.Invoke(waveCounter);
+                spawnCounter = 0;
+                enemiesRemoved = 0;
+                spawnTimer = 0;
+                isBetweenWaves = false;
+            }
+        }
+        else
+        {
+            spawnTimer -= Time.deltaTime;
 
-        if(spawnTimer < 0 && spawnCounter < currentWave.enemiesPerWave)
-        {
-            spawnTimer = currentWave.spawnInterval;
-            SpawnEnemy();
-            spawnCounter++;
+            if (spawnTimer < 0 && spawnCounter < currentWave.enemiesPerWave)
+            {
+                spawnTimer = currentWave.spawnInterval;
+                SpawnEnemy();
+                spawnCounter++;
+            }
+            else if (spawnCounter >= currentWave.enemiesPerWave && enemiesRemoved >= currentWave.enemiesPerWave)
+            {
+                isBetweenWaves = true;
+                waveCooldown = timeBetweenWaves;
+            }
         }
-        else if(spawnCounter >= currentWave.enemiesPerWave && enemiesRemoved >= currentWave.enemiesPerWave)
-        {
-            currentWaveIndex = (currentWaveIndex + 1) % waves.Length;
-            spawnCounter = 0;
-            enemiesRemoved = 0;
-        }
+
     }
 
     private void SpawnEnemy()
@@ -69,5 +102,10 @@ public class Spawner : MonoBehaviour
     private void HandleEnemyReachedEnd(EnemyDataSO data)
     {
         enemiesRemoved++;
-    }    
+    }
+    
+    private void HandleEnemyDestroyed(Enemy enemy)
+    {
+        enemiesRemoved++;
+    }
 }

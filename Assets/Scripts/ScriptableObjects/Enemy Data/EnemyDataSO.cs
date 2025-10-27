@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName ="Enemy Data", menuName ="Enemy/Enemy Data")]
+[CreateAssetMenu(fileName ="EnemyData", menuName ="Data Objects/Enemy Data")]
 public class EnemyDataSO : ScriptableObject
 {
     public float lives;

@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60d61839b1b2ae24fae0ef59aecb6d6f, type: 3}
-  m_Name: EyeCrow
+  m_Script: {fileID: 11500000, guid: 705bff3b34bf6bb40a3c48636ec301b6, type: 3}
+  m_Name: FastTower
   m_EditorClassIdentifier: 
-  lives: 3
+  range: 4
+  shootInterval: 0.7
+  projectileSpeed: 10
+  projectileDuration: 2
   damage: 1
-  speed: 3
