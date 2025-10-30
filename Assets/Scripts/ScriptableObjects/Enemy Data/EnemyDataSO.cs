@@ -8,4 +8,5 @@ public class EnemyDataSO : ScriptableObject
     public float lives;
     public int damage;
     public float speed;
+    public int rewardResource;
 }

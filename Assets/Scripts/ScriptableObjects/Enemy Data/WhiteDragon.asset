@@ -15,3 +15,4 @@ MonoBehaviour:
   lives: 10
   damage: 2
   speed: 1
+  rewardResource: 3

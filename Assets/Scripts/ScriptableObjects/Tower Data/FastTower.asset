@@ -16,4 +16,5 @@ MonoBehaviour:
   shootInterval: 0.7
   projectileSpeed: 10
   projectileDuration: 2
+  projectileSize: 1
   damage: 1
